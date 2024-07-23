@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Energy Monetization</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .orange-text {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Solar Energy Monetization</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="interactive-map">
+            <h2>Bitcoin Miners Scenario</h2>
+            <div id="map1" class="map">
+                <p id="energyProduced">Energy Produced: 0 kW</p>
+                <p id="resultMiners">Total Profitability: $0.00</p>
+                <p id="maxMiners" class="orange-text">Max Miners Supported: 0</p>
+            </div>
+        </section>
+        
+        <section class="interactive-map">
+            <h2>Third-Party Purchasers Scenario</h2>
+            <div id="map2" class="map">
+                <p id="energyProduced2">Energy Produced: 0 kW</p>
+                <p id="resultPurchasers">Total Profitability: $0.00</p>
+            </div>
+        </section>
+        
+        <section class="sidebar">
+            <h2>Adjust Asset Features</h2>
+            <div id="controls">
+                <!-- Controls for adjusting asset features -->
+                <div class="control-group">
+                    <label for="solarPanels">Solar Panels (sq meters):</label>
+                    <input type="number" id="solarPanels" value="10">
+                </div>
+                <div class="control-group">
+                    <label for="roofSpace">Roof Space (sq meters):</label>
+                    <input type="number" id="roofSpace" value="50">
+                </div>
+                <div class="control-group">
+                    <label for="miners">SHA256 Miners :</label>
+                    <input type="number" id="miners" value="0.1">
+                </div>
+                <div class="control-group">
+                    <label for="bitcoinReward">Daily Bitcoin Reward in USD:</label>
+                    <input type="number" id="bitcoinReward" value="6.25">
+                </div>
+                <div class="control-group">
+                    <label for="energyPrice">Energy Purchaser Price (per kW):</label>
+                    <input type="number" id="energyPrice" value="0.15">
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Solar Energy Monetization. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('solarPanels').addEventListener('input', updateCalculations);
+        document.getElementById('roofSpace').addEventListener('input', updateCalculations);
+        document.getElementById('miners').addEventListener('input', updateCalculations);
+        document.getElementById('bitcoinReward').addEventListener('input', updateCalculations);
+        document.getElementById('energyPrice').addEventListener('input', updateCalculations);
+
+        function updateCalculations() {
+            calculateEnergyProduced();
+            calculateProfitabilityMiners();
+            calculateProfitabilityPurchasers();
+            calculateMaxMiners();
+        }
+
+        function calculateEnergyProduced() {
+            const solarPanels = document.getElementById('solarPanels').value;
+            const energyProduced = solarPanels * 0.2; // Example: 0.2 kW per solar panel
+
+            document.getElementById('energyProduced').textContent = `Energy Produced: ${energyProduced.toFixed(2)} kW`;
+            document.getElementById('energyProduced2').textContent = `Energy Produced: ${energyProduced.toFixed(2)} kW`;
+        }
+
+        function calculateProfitabilityMiners() {
+            const solarPanels = document.getElementById('solarPanels').value;
+            const miners = document.getElementById('miners').value;
+            const bitcoinReward = document.getElementById('bitcoinReward').value;
+
+            // Calculation logic for miners
+            const solarEnergyProduced = solarPanels * 0.2; // Example: 0.2 kW per solar panel
+            const miningProfit = bitcoinReward * 1 - miners; // Simplified example
+            
+            const totalProfit = miningProfit;
+
+            document.getElementById('resultMiners').textContent = `Total Profitability: $${totalProfit.toFixed(2)}`;
+        }
+
+        function calculateProfitabilityPurchasers() {
+            const solarPanels = document.getElementById('solarPanels').value;
+            const energyPrice = document.getElementById('energyPrice').value;
+
+            // Calculation logic for purchasers
+            const solarEnergyProduced = solarPanels * 0.2; // Example: 0.2 kW per solar panel
+            const energySaleProfit = solarEnergyProduced * energyPrice;
+            
+            const totalProfit = energySaleProfit;
+
+            document.getElementById('resultPurchasers').textContent = `Total Profitability: $${totalProfit.toFixed(2)}`;
+        }
+
+        function calculateMaxMiners() {
+            const solarPanels = document.getElementById('solarPanels').value;
+            const energyProduced = solarPanels * 0.2; // Example: 0.2 kW per solar panel
+            const maxMiners = Math.floor(energyProduced / 1); // 1 kW per miner
+
+            const minersInput = document.getElementById('miners');
+            if (minersInput.value > maxMiners) {
+                minersInput.value = maxMiners;
+            }
+
+            document.getElementById('maxMiners').textContent = `Max Miners Supported: ${maxMiners}`;
+            document.getElementById('maxMiners').style.color = 'orange';
+        }
+
+        // Initial calculation on page load
+        updateCalculations();
+    </script>
+</body>
+</html>
